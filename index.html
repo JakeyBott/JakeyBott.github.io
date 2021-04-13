@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -5,37 +6,79 @@
     <title>repl.it</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js" integrity="sha512-gQVBYBvfC+uyor5Teonjr9nmY1bN+DlOCezkhzg4ShpC5q81ogvFsr5IV4xXAj6HEtG7M1Pb2JCha97tVFItYQ==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/addons/p5.sound.js" integrity="sha512-KxzVm+IqxNNq0+SzT/zzd5PHxY4LPrN+v5gZJ6+JKqjeU3Cr4y/djAg5eNlKDWurn1SeKZpql/yeOMWblMSzOg==" crossorigin="anonymous"></script>
+
   </head>
   <body>
     <script>
       var w = window.innerWidth;
       var h = window.innerHeight;
-      //create a variable to store our sound file.
-      var boing;
-      //create a variable to store our image file
-      var fireball;
-      
-      //create a preload function
-      function preload() {
-        soundFormats("mp3")
-        boing = loadSound("boing.mp3")
-      }
+      var x = w / 2;
+      var y = h / 2;
+      //declare player object
+      var player;
 
       function setup() {
         createCanvas(w,h);
-        fireball = loadImage("fireball.png");
+        //declare player object as object
+        player = new player();
       }
 
       function draw() {
-        clear()
-        //when someone presses the spacebar
-        if (keyIsDown(32)){
-          //play the sound
-          boing.play();
+        clear();
+        player.show();
+        player.update();
+        //jump when the spacebar is pressed
+        if (keyIsDown(32) && player.y > 0+25){
+          player.jump();
         }
-        //image(variablename,x,y,width,height
-        image(fireball,mouseX,mouseY,100,100)
+        if (keyIsDown(65) && player.x > 0+25) {
+          x = player.x -= 10;
+        }
+        if (keyIsDown(68) && player.x < w-25) {
+          x = player.x += 10;
+        }
+        //if (keyIsDown(87)) {
+          //y = player.y -= 10;
+        //}
+        if (keyIsDown(83)) {
+          y = player.y += 25;
+        }
+      }
+
+      //create player object
+      function player() {
+        //declare where I will start
+        this.x = w/2;
+        this.y = h/2;
+        //force of gravity
+        this.gravity = 0.5;
+        //oppositional force
+        this.lift = -5;
+        //speed of our player
+        this.velocity = 0;
+        //show the object
+        this.show = function() {
+          fill(color('red'))
+          ellipse(this.x, this.y, 50, 50);
+        }
+        //update the player
+        this.update = function() {
+          //add gravity to player
+          this.velocity += this.gravity
+          //direction of gravity
+          this.y += this.velocity
+          //resisance to velocity
+          this.velocity *= 0.9;
+          //stop player from falling through the floor
+          if (this.y > h-25){
+            this.y = h-25
+            //this.y - h25 would seem like sinking through mud
+            this.velocity = 0;
+          }
+        }
+        this.jump = function() {
+          this.velocity += this.lift;
+        }
       }
     </script>
   </body>
