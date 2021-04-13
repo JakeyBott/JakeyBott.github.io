@@ -35,13 +35,11 @@
         clear();
         player.show();
         player.update();
-        if (keyIsDown(32)){
-          //play the sound
-          boing.play();
-        }
         //jump when the spacebar is pressed
         if (keyIsDown(32) && player.y > 0+25){
           player.jump();
+          //play the sound
+          boing.play();
         }
         if (keyIsDown(65) && player.x > 0+25) {
           x = player.x -= 10;
