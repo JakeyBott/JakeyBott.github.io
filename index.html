@@ -25,7 +25,7 @@
       var sun
       
       function instructions() {
-        window.alert('How to play: hold "a" and "d" to move right and left, and spacebar to jump. To do a high jump, start on the ground and hold space (to do another high jump you must touch the ground again before jumping). ')
+        window.alert('How to play: hold "a" and "d" to move left, and spacebar to jump. To do a high jump, start on the ground and hold space (to do another high jump you must touch the ground again before jumping). ')
       }
       
       function preload() {
@@ -147,7 +147,7 @@
           rect(this.x,this.y,this.r,this.r*2);
         }
         this.update = function(){
-          this.x =  this.x - 5
+          this.x =  this.x - 8
           if (this.x < -25){
             this.x = w + 25;
           }
@@ -162,7 +162,7 @@
           rect(this.x,this.y,this.r,this.r*2);
         }
         this.update = function(){
-          this.x =  this.x - 5
+          this.x =  this.x - 8
           if (this.x < -100){
             this.x = w + 100;
           }
@@ -179,7 +179,7 @@
           ellipse(this.x-20, this.y+10, 80, 25);
         }
         this.update = function(){
-          this.x =  this.x - 5
+          this.x =  this.x - 7
           if (this.x < -100){
             this.x = w + 100;
           }
