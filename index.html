@@ -57,6 +57,11 @@
         cloud.update();
         cloud2.update();
         image(sun,w,150,100,100)
+        fill(black);
+        ellipse(posx, posy, 20,20);
+        rectMode(CENTER);
+        if (posx = posx + random(-10, 10))
+        posy = posy + random(-10, 10);
         //jump when the spacebar is pressed
         if (keyIsDown(32) && player.y > h-50){
           player.jump();
