@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js" integrity="sha512-gQVBYBvfC+uyor5Teonjr9nmY1bN+DlOCezkhzg4ShpC5q81ogvFsr5IV4xXAj6HEtG7M1Pb2JCha97tVFItYQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/addons/p5.sound.js" integrity="sha512-KxzVm+IqxNNq0+SzT/zzd5PHxY4LPrN+v5gZJ6+JKqjeU3Cr4y/djAg5eNlKDWurn1SeKZpql/yeOMWblMSzOg==" crossorigin="anonymous"></script>
+    <script defer src="https://unpkg.com/p5.collide2d"></script>
 
   </head>
   <body>
@@ -19,57 +17,96 @@
       var player;
       //create a variable to store our sound file.
       var boing;
+      //create variable for obsticles
+      var cactus
+      var cactus2
+      var cloud
+      var cloud2
 
+
+
+      
       function preload() {
         soundFormats("mp3")
         boing = loadSound("boing.mp3")
+        
       }
+      
 
       function setup() {
         createCanvas(w,h);
         //declare player object as object
         player = new player();
+        cactus = new cactus();
+        cactus2 = new cactus2();
+        cloud = new cloud();
+        cloud2 = new cloud2();
+        sun = loadImage("sun.png");
       }
 
       function draw() {
         clear();
         player.show();
+        cactus.show();
+        cactus2.show();
+        cloud.show();
+        cloud2.show();
         player.update();
+        cactus.update();
+        cactus2.update();
+        cloud.update();
+        cloud2.update();
+        image(sun,w,25,100,100)
         //jump when the spacebar is pressed
-        if (keyIsDown(32) && player.y > 0+25){
+        if (keyIsDown(32) && player.y > h-65){
           player.jump();
           //play the sound
           boing.play();
         }
         if (keyIsDown(65) && player.x > 0+25) {
-          x = player.x -= 10;
+          x = player.x -= 5;
         }
+
+        //move right
         if (keyIsDown(68) && player.x < w-25) {
-          x = player.x += 10;
+          x = player.x += 5;
         }
         //if (keyIsDown(87)) {
           //y = player.y -= 10;
         //}
+
+        
         if (keyIsDown(83)) {
           y = player.y += 25;
+        }
+
+        
+        hit = collideRectCircle(cactus.x, cactus.y, cactus.r, cactus.r, player.x, player.y, player.r);
+        hit2 = collideRectCircle(cactus2.x, cactus2.y, cactus2.r, cactus2.r, player.x, player.y, player.r);
+
+        //print('colliding?', hit);
+        if (hit || hit2) {
+          noLoop();    
+          window.alert('You died! Refresh the page to play again.');
         }
       }
 
       //create player object
       function player() {
         //declare where I will start
-        this.x = w/2;
+        this.x = 20;
         this.y = h/2;
+        this.r = 20;
         //force of gravity
         this.gravity = 0.5;
         //oppositional force
-        this.lift = -5;
+        this.lift = -3;
         //speed of our player
         this.velocity = 0;
         //show the object
         this.show = function() {
           fill(color('red'))
-          ellipse(this.x, this.y, 50, 50);
+          ellipse(this.x, this.y, this.r * 2, this.r * 2);
         }
         //update the player
         this.update = function() {
@@ -80,8 +117,8 @@
           //resisance to velocity
           this.velocity *= 0.9;
           //stop player from falling through the floor
-          if (this.y > h-25){
-            this.y = h-25
+          if (this.y > h-30){
+            this.y = h-30
             //this.y - h25 would seem like sinking through mud
             this.velocity = 0;
           }
@@ -90,6 +127,72 @@
           this.velocity += this.lift;
         }
       }
+
+      function cactus(){
+        this.x = w;
+        this.y = h-55;
+        this.r = 25;
+        this.show = function() {
+          fill(color('green'))
+          rect(this.x,this.y,this.r,this.r*2);
+        }
+        this.update = function(){
+          this.x =  this.x - 5
+          if (this.x < -25){
+            this.x = w + 25;
+          }
+        }
+      }
+      function cactus2(){
+        this.x = w+20;
+        this.y = h-50;
+        this.r = 25;
+        this.show = function() {
+          fill(color('green'))
+          rect(this.x,this.y,this.r,this.r*2);
+        }
+        this.update = function(){
+          this.x =  this.x - 5
+          if (this.x < -100){
+            this.x = w + 100;
+          }
+        }
+      }
+
+        function cloud(){
+        this.x = w;
+        this.y = 120;
+        this.show = function() {
+          fill(color('white'))
+          ellipse(this.x, this.y, 80, 25);
+          ellipse(this.x+20, this.y+8, 80, 25);
+          ellipse(this.x-20, this.y+10, 80, 25);
+        }
+        this.update = function(){
+          this.x =  this.x - 5
+          if (this.x < -100){
+            this.x = w + 100;
+          }
+        }
+      }
+
+      function cloud2(){
+        this.x = w + 325;
+        this.y = 100;
+        this.show = function() {
+          fill(color('white'))
+          ellipse(this.x, this.y, 80, 25);
+          ellipse(this.x+20, this.y+8, 80, 25);
+          ellipse(this.x-20, this.y+10, 80, 25);
+        }
+        this.update = function(){
+          this.x =  this.x - 2
+          if (this.x < -100){
+            this.x = w + 100;
+          }
+        }
+      }
+
     </script>
   </body>
 </html>
