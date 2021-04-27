@@ -50,7 +50,9 @@
         clear();
         player.show();
         cactus.show();
+        cactus.x = cactus.x+0.01
         cactus2.show();
+        cactus2.x = cactus2.x+0.01
         cloud.show();
         cloud2.show();
         player.update();
@@ -147,7 +149,7 @@
           rect(this.x,this.y,this.r,this.r*2);
         }
         this.update = function(){
-          this.x =  this.x - 8
+          this.x =  this.x - 6.4
           if (this.x < -25){
             this.x = w + 25;
           }
@@ -162,7 +164,7 @@
           rect(this.x,this.y,this.r,this.r*2);
         }
         this.update = function(){
-          this.x =  this.x - 8
+          this.x =  this.x - 6.4
           if (this.x < -100){
             this.x = w + 100;
           }
