@@ -7,7 +7,7 @@
     <script defer src="https://unpkg.com/p5.collide2d"></script>
 
   </head>
-  <body>
+  <body onload="instructions()" >
     <script>
       var w = window.innerWidth;
       var h = window.innerHeight;
@@ -23,10 +23,9 @@
       var cloud
       var cloud2
       var sun
-
-      window.onload = function() {
+      
+      function instructions() {
         window.alert('How to play: hold "a" and "d" to move right and left, and spacebar to jump. To do a high jump, start on the ground and hold space.(high jump only works if you touch the ground first.)')
-        
       }
       
       function preload() {
