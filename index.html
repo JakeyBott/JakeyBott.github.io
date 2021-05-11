@@ -125,7 +125,7 @@
           //direction of gravity
           this.y += this.velocity
           //resisance to velocity
-          this.velocity *= 0.7;
+          this.velocity *= 0.99;
           //stop player from falling through the floor
           if (this.y > h-30){
             this.y = h-30
